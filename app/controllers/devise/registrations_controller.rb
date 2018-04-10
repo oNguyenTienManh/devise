@@ -94,7 +94,8 @@ class Devise::RegistrationsController < DeviseController
   # By default we want to require a password checks on update.
   # You can overwrite this method in your own RegistrationsController.
   def update_resource(resource, params)
-    resource.update_with_password(params)
+    return resource.update_with_password(params) if params.key?(:password) || params.key?(:password_confirmation)
+    resource.update_without_password(params)
   end
 
   # Build a devise resource passing in the session. Useful to move
